@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "gulp-jshint": "^1.5.3",
-    "jshint-stylish": "^0.1.5",
-    "map-stream": "^0.1.0"
+    "jshint-stylish": "^0.1.5"
   }
 }
