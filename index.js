@@ -34,15 +34,15 @@ module.exports = function (gulp) {
       '!lib/*/content/**'
     ])
       .pipe(jshint('./node_modules/load-common-gulp-tasks/lint/.jshintrc'))
-      .pipe(jshint.reporter(stylish));
-    //.pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
+      .pipe(jshint.reporter(stylish))
+      .pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
   });
 
   gulp.task('felint', function () {
     gulp.src(['lib/*/content/**/*.js'])
       .pipe(jshint('./node_modules/load-common-gulp-tasks/felint/.jshintrc'))
-      .pipe(jshint.reporter(stylish));
-    //.pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
+      .pipe(jshint.reporter(stylish))
+      .pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
   });
 
   gulp.task('cover', function (cb) {
