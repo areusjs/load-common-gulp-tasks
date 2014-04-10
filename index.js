@@ -1,3 +1,5 @@
+'use strict';
+
 var jshint = require('gulp-jshint'),
   stylish = require('jshint-stylish');
 
