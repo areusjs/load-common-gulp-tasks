@@ -10,7 +10,8 @@ var gutil = require('gulp-util'),
 
 module.exports = function (gulp) {
 
-  gulp.coverageSettings = _.extend({
+  // deep '_.defaults'
+  gulp.coverageSettings = _.merge(gulp.coverageSettings || {}, {
     thresholds: {
       statements: 80,
       branches: 80,
@@ -19,7 +20,7 @@ module.exports = function (gulp) {
     },
     coverageDirectory: 'coverage',
     rootDirectory: ''
-  }, gulp.coverageSettings || {});
+  }, _.defaults);
 
   function errorLogger(err) {
     gutil.beep();

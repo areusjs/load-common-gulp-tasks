@@ -12,7 +12,9 @@
   "author": "Chris Montgomery",
   "license": "MIT",
   "devDependencies": {
-    "gulp": "^3.6.0"
+    "gulp": "^3.6.0",
+    "should": "^3.3.0",
+    "sinon": "^1.9.1"
   },
   "dependencies": {
     "gulp-jshint": "^1.5.3",
@@ -21,6 +23,7 @@
     "gulp-util": "^2.2.14",
     "gulp-istanbul": "^0.1.1",
     "gulp-istanbul-enforcer": "^1.0.2",
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "colors": "^0.6.2"
   }
 }
