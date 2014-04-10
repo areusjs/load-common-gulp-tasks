@@ -16,6 +16,11 @@
   },
   "dependencies": {
     "gulp-jshint": "^1.5.3",
-    "jshint-stylish": "^0.1.5"
+    "jshint-stylish": "^0.1.5",
+    "gulp-mocha": "^0.4.1",
+    "gulp-util": "^2.2.14",
+    "gulp-istanbul": "^0.1.1",
+    "gulp-istanbul-enforcer": "^1.0.2",
+    "lodash": "^2.4.1"
   }
 }
