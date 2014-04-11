@@ -26,7 +26,7 @@ describe('coverage', function () {
         lines: 80,
         functions: 80
       },
-      coverageDirectory: 'target/coverage',
+      coverageDirectory: './target/coverage',
       rootDirectory: ''
     });
     done();
@@ -49,7 +49,7 @@ describe('coverage', function () {
         lines: 80,
         functions: 65
       },
-      coverageDirectory: 'target/coverage',
+      coverageDirectory: './target/coverage',
       rootDirectory: ''
     });
     done();

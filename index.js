@@ -7,7 +7,6 @@ var gutil = require('gulp-util'),
   istanbul = require('gulp-istanbul'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
   _ = require('lodash'),
-  join = require('path').join,
   fs = require('fs');
 
 /**
@@ -16,7 +15,7 @@ var gutil = require('gulp-util'),
  * @param {Object} [options] custom options
  */
 module.exports = function (gulp, options) {
-  var libPath = (options && options.libPath) ? options.libPath : 'lib';
+  var libPath = (options && options.libPath) ? options.libPath : './lib';
 
   // defaults
   gulp.options = {
@@ -28,23 +27,23 @@ module.exports = function (gulp, options) {
         lines: 80,
         functions: 80
       },
-      coverageDirectory: 'target/coverage',
+      coverageDirectory: './target/coverage',
       rootDirectory: ''
     },
     paths: {
       lint: [
-        'gulpfile.js',
-        join(libPath, '/**/*.js'),
-        '!' + join(libPath, '/*/content/**')
+        './gulpfile.js',
+        libPath + '/**/*.js',
+        '!' + libPath + '/*/content/**'
       ],
       felint: [
-        join(libPath, '/*/content/**/*.js')
+        libPath + '/*/content/**/*.js'
       ],
       cover: [
-        join(libPath, '/*/lib/**/*.js')
+        libPath + '/*/lib/**/*.js'
       ],
       test: [
-        join(libPath, '/*/test/**/*.js')
+        libPath + '/*/test/**/*.js'
       ]
     }
   };

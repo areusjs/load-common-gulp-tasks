@@ -16,11 +16,11 @@ function errorLogger(err) {
 
 gulp.task('lint', function (cb) {
   return gulp.src([
-    'gulpfile.js',
-    'index.js',
-    'test/**/*.js'
+    './gulpfile.js',
+    './index.js',
+    './test/**/*.js'
   ])
-    .pipe(jshint('lint/.jshintrc'))
+    .pipe(jshint('./lint/.jshintrc'))
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'))
     .on('error', errorLogger);
@@ -28,15 +28,15 @@ gulp.task('lint', function (cb) {
 
 gulp.task('test', ['lint'], function () {
   // do NOT return the stream, otherwise watch won't continue on error
-  gulp.src('test/**/*.js')
+  gulp.src('./test/**/*.js')
     .pipe(mocha({reporter: 'dot'}))
     .on('error', errorLogger);
 });
 
 gulp.task('watch', function () {
   return gulp.watch([
-    'index.js',
-    'test/**/*.js'
+    './index.js',
+    './test/**/*.js'
   ], ['default']);
 });
 
