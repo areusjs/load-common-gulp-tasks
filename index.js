@@ -62,7 +62,7 @@ module.exports = function (gulp, options) {
   });
 
   gulp.task('test', ['cover'], function () {
-    return gulp.src('lib/*/test/*.js')
+    return gulp.src('lib/*/test/**/*.js')
       .pipe(mocha({reporter: 'dot'}))
       .pipe(istanbul.writeReports())
       .pipe(coverageEnforcer(gulp.options.coverageSettings))
