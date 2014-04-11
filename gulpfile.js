@@ -33,11 +33,29 @@ gulp.task('test', ['lint'], function () {
     .on('error', errorLogger);
 });
 
+gulp.task('lint-watch', function (cb) {
+  return gulp.src([
+    'gulpfile.js',
+    'index.js',
+    'test/**/*.js'
+  ])
+    .pipe(jshint('lint/.jshintrc'))
+    .pipe(jshint.reporter(stylish))
+    .on('error', errorLogger);
+});
+
+gulp.task('test-watch', ['lint-watch'], function () {
+  // do NOT return the stream, otherwise watch won't continue on error
+  gulp.src('test/**/*.js')
+    .pipe(mocha({reporter: 'dot'}))
+    .on('error', errorLogger);
+});
+
 gulp.task('watch', function () {
   return gulp.watch([
     'index.js',
     'test/**/*.js'
-  ], ['default']);
+  ], ['test-watch']);
 });
 
 gulp.task('default', ['test']);

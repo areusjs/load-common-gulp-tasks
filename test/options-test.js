@@ -20,7 +20,7 @@ describe('options', function () {
 
   it('should have default libPath', function () {
     loadCommonGulpTasks(gulp);
-    gulp.options.libPath.should.eql('lib');
+    gulp.options.libPath.should.eql('/lib');
   });
 
   it('should have custom libPath', function () {
@@ -37,18 +37,18 @@ describe('options', function () {
 
     should(gulp.options.paths.lint.length).eql(4);
     should(_.contains(gulp.options.paths.lint,'gulpfile.js')).ok;
-    should(_.contains(gulp.options.paths.lint,'lib/**/*.js')).ok;
-    should(_.contains(gulp.options.paths.lint,'!lib/*/coverage/**')).ok;
-    should(_.contains(gulp.options.paths.lint,'!lib/*/content/**')).ok;
+    should(_.contains(gulp.options.paths.lint,'/lib/**/*.js')).ok;
+    should(_.contains(gulp.options.paths.lint,'!/lib/*/coverage/**')).ok;
+    should(_.contains(gulp.options.paths.lint,'!/lib/*/content/**')).ok;
 
     should(gulp.options.paths.felint.length).eql(1);
-    should(_.contains(gulp.options.paths.felint,'lib/*/content/**/*.js')).ok;
+    should(_.contains(gulp.options.paths.felint,'/lib/*/content/**/*.js')).ok;
 
     should(gulp.options.paths.cover.length).eql(1);
-    should(_.contains(gulp.options.paths.cover,'lib/*/lib/**/*.js')).ok;
+    should(_.contains(gulp.options.paths.cover,'/lib/*/lib/**/*.js')).ok;
 
     should(gulp.options.paths.test.length).eql(1);
-    should(_.contains(gulp.options.paths.test,'lib/*/test/**/*.js')).ok;
+    should(_.contains(gulp.options.paths.test,'/lib/*/test/**/*.js')).ok;
   });
 
   it('should have custom paths', function () {

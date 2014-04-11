@@ -24,6 +24,7 @@
     "gulp-istanbul": "^0.1.1",
     "gulp-istanbul-enforcer": "^1.0.2",
     "lodash": "^2.4.1",
-    "colors": "^0.6.2"
+    "colors": "^0.6.2",
+    "bluebird": "^1.2.2"
   }
 }
