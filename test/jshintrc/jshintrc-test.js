@@ -1,37 +1,29 @@
 'use strict';
 
-var loadCommonGulpTasks = require('../../index.js'),
+var Promise = require('bluebird'),
 /*jshint unused: true */
   should = require('should'),
-/*jshint unused: false */
   sinon = require('sinon'),
-  _ = require('lodash'),
-  Promise = require('bluebird'),
-  fs = Promise.promisifyAll(require('fs'));
+/*jshint unused: false */
+  fs = Promise.promisifyAll(require('fs')),
+  libPath = '../../lib',
+  jshintrc = require(libPath + '/jshintrc/index');
 
 describe('options', function () {
 
-  var gulp;
-
-  function noop() {
-  }
-
   beforeEach(function () {
     Promise.longStackTraces();
-    gulp = sinon.stub({task: noop});
   });
 
   it('should be default jshintrc file', function (done) {
-    loadCommonGulpTasks(gulp);
-
-    loadCommonGulpTasks.generateJshintrc(
-      'lint/.jshintrc',
+    jshintrc.generate(
+      'lib/jshintrc/lint/.jshintrc',
       null
     )
       .then(function() {
         return Promise.all([
           fs.readFileAsync('.tmp/.lint_jshintrc', 'utf8'),
-          fs.readFileAsync('lint/.jshintrc', 'utf8')
+          fs.readFileAsync('lib/jshintrc/lint/.jshintrc', 'utf8')
         ]);
       })
       .spread(function (actualData, expectedData){
@@ -44,10 +36,8 @@ describe('options', function () {
   });
 
   it('should be custom jshintrc file', function (done) {
-    loadCommonGulpTasks(gulp);
-
-    loadCommonGulpTasks.generateJshintrc(
-      'lint/.jshintrc',
+    jshintrc.generate(
+      'lib/jshintrc/lint/.jshintrc',
       'test/jshintrc/.custom_jshintrc'
     )
       .then(function() {

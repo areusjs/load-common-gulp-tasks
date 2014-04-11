@@ -20,7 +20,7 @@ gulp.task('lint', function (cb) {
     'index.js',
     'test/**/*.js'
   ])
-    .pipe(jshint('lint/.jshintrc'))
+    .pipe(jshint('lib/jshintrc/lint/.jshintrc'))
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'))
     .on('error', errorLogger);
