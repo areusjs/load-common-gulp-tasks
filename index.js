@@ -28,14 +28,13 @@ module.exports = function (gulp, options) {
         lines: 80,
         functions: 80
       },
-      coverageDirectory: 'coverage',
+      coverageDirectory: 'target/coverage',
       rootDirectory: ''
     },
     paths: {
       lint: [
         'gulpfile.js',
         join(libPath, '/**/*.js'),
-        '!' + join(libPath, '/*/coverage/**'),
         '!' + join(libPath, '/*/content/**')
       ],
       felint: [
@@ -86,7 +85,7 @@ module.exports = function (gulp, options) {
   gulp.task('test', ['cover'], function () {
     return gulp.src(gulp.options.paths.test)
       .pipe(mocha({reporter: 'dot'}))
-      .pipe(istanbul.writeReports())
+      .pipe(istanbul.writeReports(gulp.options.coverageSettings.coverageDirectory))
       .pipe(coverageEnforcer(gulp.options.coverageSettings))
       .on('error', errorLogger);
   });

@@ -35,10 +35,9 @@ describe('options', function () {
 
     should(_.keys(gulp.options.paths).length).eql(4);
 
-    should(gulp.options.paths.lint.length).eql(4);
+    should(gulp.options.paths.lint.length).eql(3);
     should(_.contains(gulp.options.paths.lint,'gulpfile.js')).ok;
     should(_.contains(gulp.options.paths.lint,'lib/**/*.js')).ok;
-    should(_.contains(gulp.options.paths.lint,'!lib/*/coverage/**')).ok;
     should(_.contains(gulp.options.paths.lint,'!lib/*/content/**')).ok;
 
     should(gulp.options.paths.felint.length).eql(1);
@@ -64,12 +63,11 @@ describe('options', function () {
 
     should(_.keys(gulp.options.paths).length).eql(4);
 
-    should(gulp.options.paths.lint.length).eql(6);
+    should(gulp.options.paths.lint.length).eql(5);
     should(_.contains(gulp.options.paths.lint,'my_custom_file.js')).ok;
     should(_.contains(gulp.options.paths.lint,'custom/glob/path/**/*.js')).ok;
     should(_.contains(gulp.options.paths.lint,'gulpfile.js')).ok;
     should(_.contains(gulp.options.paths.lint,'repository/**/*.js')).ok;
-    should(_.contains(gulp.options.paths.lint,'!repository/*/coverage/**')).ok;
     should(_.contains(gulp.options.paths.lint,'!repository/*/content/**')).ok;
 
     should(gulp.options.paths.felint.length).eql(1);
