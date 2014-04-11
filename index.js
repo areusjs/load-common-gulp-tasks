@@ -7,7 +7,8 @@ var gutil = require('gulp-util'),
   istanbul = require('gulp-istanbul'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
   _ = require('lodash'),
-  join = require('path').join;
+  join = require('path').join,
+  fs = require('fs');
 
 /**
  * Assigns default tasks to your gulp instance
@@ -49,7 +50,7 @@ module.exports = function (gulp, options) {
     }
   };
 
-  _.merge(gulp.options, options, function(a, b) {
+  _.merge(gulp.options, options, function (a, b) {
     return _.isArray(a) ? a.concat(b) : undefined;
   });
 
@@ -59,10 +60,14 @@ module.exports = function (gulp, options) {
   }
 
   gulp.task('lint', function () {
-    gulp.src(gulp.options.paths.lint)
-      .pipe(jshint('./node_modules/load-common-gulp-tasks/lint/.jshintrc'))
-      .pipe(jshint.reporter(stylish))
-      .pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
+    fs.exists('./.jshintrc', function (exists) {
+      var jshintrcPath = exists ? './.jshintrc' : './node_modules/load-common-gulp-tasks/lint/.jshintrc';
+
+      gulp.src(gulp.options.paths.lint)
+        .pipe(jshint(jshintrcPath))
+        .pipe(jshint.reporter(stylish))
+        .pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
+    });
   });
 
   gulp.task('felint', function () {
