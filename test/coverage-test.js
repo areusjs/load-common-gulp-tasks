@@ -19,7 +19,7 @@ describe('coverage', function () {
 
   it('should have default config', function (done) {
     loadCommonGulpTasks(gulp);
-    gulp.coverageSettings.should.eql({
+    gulp.options.coverageSettings.should.eql({
       thresholds: {
         statements: 80,
         branches: 80,
@@ -33,15 +33,16 @@ describe('coverage', function () {
   });
 
   it('should have custom config', function (done) {
-    gulp.coverageSettings = {
-      thresholds: {
-        statements: 82, // higher than default
-        branches: 65, // lower than default
-        functions: 65
+    loadCommonGulpTasks(gulp, {
+      coverageSettings: {
+        thresholds: {
+          statements: 82, // higher than default
+          branches: 65, // lower than default
+          functions: 65
+        }
       }
-    };
-    loadCommonGulpTasks(gulp);
-    gulp.coverageSettings.should.eql({
+    });
+    gulp.options.coverageSettings.should.eql({
       thresholds: {
         statements: 82,
         branches: 65,

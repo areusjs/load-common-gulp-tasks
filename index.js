@@ -8,19 +8,28 @@ var gutil = require('gulp-util'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
   _ = require('lodash');
 
-module.exports = function (gulp) {
+/**
+ * Assigns default tasks to your gulp instance
+ * @param {Gulp} gulp
+ * @param {Object} [options] custom options
+ */
+module.exports = function (gulp, options) {
 
-  // deep '_.defaults'
-  gulp.coverageSettings = _.merge(gulp.coverageSettings || {}, {
-    thresholds: {
-      statements: 80,
-      branches: 80,
-      lines: 80,
-      functions: 80
-    },
-    coverageDirectory: 'coverage',
-    rootDirectory: ''
-  }, _.defaults);
+  // defaults
+  gulp.options = {
+    coverageSettings: {
+      thresholds: {
+        statements: 80,
+        branches: 80,
+        lines: 80,
+        functions: 80
+      },
+      coverageDirectory: 'coverage',
+      rootDirectory: ''
+    }
+  };
+
+  _.merge(gulp.options, options);
 
   function errorLogger(err) {
     gutil.beep();
@@ -56,7 +65,7 @@ module.exports = function (gulp) {
     return gulp.src('lib/*/test/*.js')
       .pipe(mocha({reporter: 'dot'}))
       .pipe(istanbul.writeReports())
-      .pipe(coverageEnforcer(gulp.coverageSettings))
+      .pipe(coverageEnforcer(gulp.options.coverageSettings))
       .on('error', errorLogger);
   });
 
