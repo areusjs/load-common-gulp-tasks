@@ -6,7 +6,8 @@ var gutil = require('gulp-util'),
   mocha = require('gulp-mocha'),
   istanbul = require('gulp-istanbul'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
-  _ = require('lodash');
+  _ = require('lodash'),
+  join = require('path').join;
 
 /**
  * Assigns default tasks to your gulp instance
@@ -14,9 +15,11 @@ var gutil = require('gulp-util'),
  * @param {Object} [options] custom options
  */
 module.exports = function (gulp, options) {
+  var libPath = (options && options.libPath) ? options.libPath : 'lib';
 
   // defaults
   gulp.options = {
+    libPath: libPath,
     coverageSettings: {
       thresholds: {
         statements: 80,
@@ -26,10 +29,29 @@ module.exports = function (gulp, options) {
       },
       coverageDirectory: 'coverage',
       rootDirectory: ''
+    },
+    paths: {
+      lint: [
+        'gulpfile.js',
+        join(libPath, '/**/*.js'),
+        '!' + join(libPath, '/*/coverage/**'),
+        '!' + join(libPath, '/*/content/**')
+      ],
+      felint: [
+        join(libPath, '/*/content/**/*.js')
+      ],
+      cover: [
+        join(libPath, '/*/lib/**/*.js')
+      ],
+      test: [
+        join(libPath, '/*/test/**/*.js')
+      ]
     }
   };
 
-  _.merge(gulp.options, options);
+  _.merge(gulp.options, options, function(a, b) {
+    return _.isArray(a) ? a.concat(b) : undefined;
+  });
 
   function errorLogger(err) {
     gutil.beep();
@@ -37,32 +59,27 @@ module.exports = function (gulp, options) {
   }
 
   gulp.task('lint', function () {
-    gulp.src([
-      'gulpfile.js',
-      'lib/**/*.js',
-      '!lib/*/coverage/**',
-      '!lib/*/content/**'
-    ])
+    gulp.src(gulp.options.paths.lint)
       .pipe(jshint('./node_modules/load-common-gulp-tasks/lint/.jshintrc'))
       .pipe(jshint.reporter(stylish))
       .pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
   });
 
   gulp.task('felint', function () {
-    gulp.src(['lib/*/content/**/*.js'])
+    gulp.src(gulp.options.paths.felint)
       .pipe(jshint('./node_modules/load-common-gulp-tasks/felint/.jshintrc'))
       .pipe(jshint.reporter(stylish))
       .pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
   });
 
   gulp.task('cover', function (cb) {
-    gulp.src('lib/*/lib/**/*.js')
+    gulp.src(gulp.options.paths.cover)
       .pipe(istanbul())
       .on('end', cb);
   });
 
   gulp.task('test', ['cover'], function () {
-    return gulp.src('lib/*/test/**/*.js')
+    return gulp.src(gulp.options.paths.test)
       .pipe(mocha({reporter: 'dot'}))
       .pipe(istanbul.writeReports())
       .pipe(coverageEnforcer(gulp.options.coverageSettings))
