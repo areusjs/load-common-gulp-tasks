@@ -1,34 +1,71 @@
 # load-common-gulp-tasks
+> Load common [gulp](http://gulpjs.com/) tasks and configs so you don't need to redefine them for every module
 
-Load common gulp tasks and configs so you don't need to redefine them for every module
+## Available Tasks
 
-## Usage
+`gulp help` for available tasks. Right now these are the default tasks:
 
-* `gulp test` Run tests, with code coverage, across all modules under `/lib`
-* `gulp cover` Generate test coverage report
-* `gulp lint` Run jshint on all server js
-* `gulp felint` Run jshint on all client js
+![](screenshot.png)
 
-## Example Config
-basic `gulpfile.js`
+## Basic Usage
 
 ```js
+// gulpfile.js
 var gulp = require('gulp');
 require('load-common-gulp-tasks')(gulp);
+
 ```
 
-To override default tasks or create new ones, simply define them after calling `require('load-common-gulp-tasks')(gulp);`, e.g.
+## Advanced Usage
+
+To override default tasks or create new ones, simply define them after calling `require('load-common-gulp-tasks')(gulp);` in your `gulpfile.js`, e.g.
 
 ```js
-gulp.task('watch', function () {
-  gulp.watch(['lib/*/sass/*.scss'], ['styles']);
+var gulp = require('gulp'),
+  sass = require('gulp-sass'),
+  rename = require('gulp-rename'),
+  bourbon = require('node-bourbon').includePaths,
+  neat = require('node-neat').includePaths,
+  libPath = 'lib',
+  sassPath = libPath + '/*/sass',
+  sassFiles = sassPath + '/*.scss',
+  options;
+
+// ------------------------
+// custom coverage settings
+// ------------------------
+options = {
+  coverageSettings: {
+    thresholds: {
+      statements: 73,
+      branches: 59,
+      lines: 74,
+      functions: 58
+    }
+  }
+};
+
+// ------------------------
+// load common tasks
+// ------------------------
+require('load-common-gulp-tasks')(gulp, options);
+
+// ------------------------
+// custom tasks
+// ------------------------
+gulp.task('watch', 'Watch sass files and recompile on change', function () {
+  gulp.watch([sassFiles], ['styles']);
 });
 
-gulp.task('styles', function () {
+gulp.task('styles', 'Compile sass to css', function () {
   return gulp.src(sassFiles)
     .pipe(sass({
-      includePaths: ['lib/*/sass']
+      includePaths: [sassPath].concat(bourbon).concat(neat)
     }))
-    .pipe(gulp.dest('content/styles'));
+    .pipe(rename(function (path) {
+      var moduleName = path.dirname.split('/')[0];
+      path.dirname = moduleName + '/content/styles';
+    }))
+    .pipe(gulp.dest('./' + libPath));
 });
 ```
