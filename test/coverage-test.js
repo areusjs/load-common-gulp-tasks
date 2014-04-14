@@ -14,7 +14,14 @@ describe('coverage', function () {
   }
 
   beforeEach(function () {
-    gulp = sinon.stub({task: noop});
+    gulp = sinon.stub({task: noop, tasks: {
+      help: {},
+      lint: {},
+      felint: {},
+      cover: {},
+      test: {},
+      default: {}
+    }});
   });
 
   it('should have default config', function (done) {
