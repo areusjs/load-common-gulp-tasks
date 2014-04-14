@@ -52,12 +52,14 @@ module.exports = function (gulp, options) {
     return _.isArray(a) ? a.concat(b) : undefined;
   });
 
+  require('gulp-help')(gulp);
+
   function errorLogger(err) {
     gutil.beep();
     gutil.log(err.message);
   }
 
-  gulp.task('lint', function () {
+  gulp.task('lint', 'Lints all server side js', function () {
     fs.exists('./.jshintrc', function (exists) {
       var jshintrcPath = exists ? './.jshintrc' : './node_modules/load-common-gulp-tasks/lint/.jshintrc';
 
@@ -68,20 +70,20 @@ module.exports = function (gulp, options) {
     });
   });
 
-  gulp.task('felint', function () {
+  gulp.task('felint', 'Lints all client side js', function () {
     gulp.src(gulp.options.paths.felint)
       .pipe(jshint('./node_modules/load-common-gulp-tasks/felint/.jshintrc'))
       .pipe(jshint.reporter(stylish))
       .pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
   });
 
-  gulp.task('cover', function (cb) {
+  gulp.task('cover', 'Generate test coverage results', function (cb) {
     gulp.src(gulp.options.paths.cover)
       .pipe(istanbul())
       .on('end', cb);
   });
 
-  gulp.task('test', ['cover'], function () {
+  gulp.task('test', 'Unit tests', ['cover'], function () {
     return gulp.src(gulp.options.paths.test)
       .pipe(mocha({reporter: 'dot'}))
       .pipe(istanbul.writeReports(gulp.options.coverageSettings.coverageDirectory))
@@ -89,5 +91,5 @@ module.exports = function (gulp, options) {
       .on('error', errorLogger);
   });
 
-  gulp.task('default', ['lint', 'felint', 'test']);
+  gulp.task('default', 'All lint and tests', ['lint', 'felint', 'test']);
 };

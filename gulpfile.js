@@ -4,17 +4,14 @@ var gulp = require('gulp'),
   jshint = require('gulp-jshint'),
   stylish = require('jshint-stylish'),
   gutil = require('gulp-util'),
-  mocha = require('gulp-mocha'),
-/*jshint unused: true */
-  colors = require('colors');
-/*jshint unused: false */
+  mocha = require('gulp-mocha');
 
 function errorLogger(err) {
   gutil.beep();
   gutil.log(err.message);
 }
 
-gulp.task('lint', function (cb) {
+gulp.task('lint', function () {
   return gulp.src([
     './gulpfile.js',
     './index.js',
