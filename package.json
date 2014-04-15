@@ -1,15 +1,24 @@
 {
   "name": "load-common-gulp-tasks",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Load common gulp tasks and configs so you don't need to redefine them for every module",
   "main": "./index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "keywords": [
-    "gulp"
+    "gulp",
+    "shared"
   ],
-  "author": "Chris Montgomery",
+  "repository": "chmontgomery/load-common-gulp-tasks",
+  "author": {
+    "name": "Chris Montgomery",
+    "email": "chr.montgomery@gmail.com",
+    "url": "http://www.chrismontgomery.info/"
+  },
+  "engines": {
+    "node": ">= 0.9"
+  },
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.6.0",

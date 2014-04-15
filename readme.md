@@ -16,6 +16,47 @@ require('load-common-gulp-tasks')(gulp);
 
 ```
 
+## Defaults
+
+`load-common-gulp-tasks` tries to assume smart defaults but also attempts to be very configurable.
+Below are the default options which can be overridden by passing an `options` object
+as the second parameter, e.g. `require('load-common-gulp-tasks')(gulp, options);`
+
+```js
+  var options = {
+    coverageSettings: {
+      thresholds: {
+        statements: 80,
+        branches: 70,
+        lines: 80,
+        functions: 80
+      },
+      coverageDirectory: './target/coverage',
+      rootDirectory: ''
+    },
+    paths: {
+      lint: [
+        './gulpfile.js',
+        './lib/**/*.js',
+        './test/**/*.js'
+      ],
+      felint: [
+        './content/scripts/**/*.js'
+      ],
+      cover: [
+        './lib/**/*.js'
+      ],
+      test: [
+        './test/**/*.js'
+      ]
+    },
+    jshintrc: {
+      server: './node_modules/load-common-gulp-tasks/lint/.jshintrc',
+      client: './node_modules/load-common-gulp-tasks/felint/.jshintrc'
+    }
+  };
+```
+
 ## Advanced Usage
 
 To override default tasks or create new ones, simply define them after calling `require('load-common-gulp-tasks')(gulp);` in your `gulpfile.js`, e.g.
@@ -37,9 +78,9 @@ var gulp = require('gulp'),
 options = {
   coverageSettings: {
     thresholds: {
-      statements: 73,
-      branches: 59,
-      lines: 74,
+      statements: 83, // higher than default
+      branches: 59, // lower than default
+      // lines not defined. use default
       functions: 58
     }
   }

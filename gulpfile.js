@@ -11,30 +11,48 @@ function errorLogger(err) {
   gutil.log(err.message);
 }
 
-gulp.task('lint', function () {
+function lint() {
   return gulp.src([
-    './gulpfile.js',
-    './index.js',
+    './*.js',
     './test/**/*.js'
   ])
     .pipe(jshint('./lint/.jshintrc'))
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'))
     .on('error', errorLogger);
+}
+
+function test() {
+  return gulp.src([
+    './test/**/*.js',
+    '!./test/helper/**'
+  ])
+    .pipe(mocha({reporter: 'dot'}))
+    .on('error', errorLogger);
+}
+
+gulp.task('lint', function () {
+  return lint();
 });
 
 gulp.task('test', ['lint'], function () {
-  // do NOT return the stream, otherwise watch won't continue on error
-  gulp.src('./test/**/*.js')
-    .pipe(mocha({reporter: 'dot'}))
-    .on('error', errorLogger);
+  return test();
+});
+
+// when watching, do NOT return the stream, otherwise watch won't continue on error
+gulp.task('lint-watch', function () {
+  lint();
+});
+
+gulp.task('test-watch', ['lint-watch'], function () {
+  test();
 });
 
 gulp.task('watch', function () {
-  return gulp.watch([
-    './index.js',
+  gulp.watch([
+    './*.js',
     './test/**/*.js'
-  ], ['default']);
+  ], ['test-watch']);
 });
 
-gulp.task('default', ['test']);
+gulp.task('default', ['watch']);

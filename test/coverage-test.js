@@ -4,24 +4,14 @@ var loadCommonGulpTasks = require('../index.js'),
 /*jshint unused: true */
   should = require('should'),
 /*jshint unused: false */
-  sinon = require('sinon');
+  testData = require('./helper/test-data.js');
 
 describe('coverage', function () {
 
   var gulp;
 
-  function noop() {
-  }
-
   beforeEach(function () {
-    gulp = sinon.stub({task: noop, tasks: {
-      help: {},
-      lint: {},
-      felint: {},
-      cover: {},
-      test: {},
-      default: {}
-    }});
+    gulp = testData.gulpStub();
   });
 
   it('should have default config', function (done) {
@@ -29,7 +19,7 @@ describe('coverage', function () {
     gulp.options.coverageSettings.should.eql({
       thresholds: {
         statements: 80,
-        branches: 80,
+        branches: 70,
         lines: 80,
         functions: 80
       },
@@ -45,6 +35,7 @@ describe('coverage', function () {
         thresholds: {
           statements: 82, // higher than default
           branches: 65, // lower than default
+          // lines not defined. use default
           functions: 65
         }
       }

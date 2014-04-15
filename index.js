@@ -15,15 +15,13 @@ var gutil = require('gulp-util'),
  * @param {Object} [options] custom options
  */
 module.exports = function (gulp, options) {
-  var libPath = (options && options.libPath) ? options.libPath : './lib';
 
   // defaults
   gulp.options = {
-    libPath: libPath,
     coverageSettings: {
       thresholds: {
         statements: 80,
-        branches: 80,
+        branches: 70,
         lines: 80,
         functions: 80
       },
@@ -33,23 +31,27 @@ module.exports = function (gulp, options) {
     paths: {
       lint: [
         './gulpfile.js',
-        libPath + '/**/*.js',
-        '!' + libPath + '/*/content/**'
+        './lib/**/*.js',
+        './test/**/*.js'
       ],
       felint: [
-        libPath + '/*/content/**/*.js'
+        './content/scripts/**/*.js'
       ],
       cover: [
-        libPath + '/*/lib/**/*.js'
+        './lib/**/*.js'
       ],
       test: [
-        libPath + '/*/test/**/*.js'
+        './test/**/*.js'
       ]
+    },
+    jshintrc: {
+      server: './node_modules/load-common-gulp-tasks/lint/.jshintrc',
+      client: './node_modules/load-common-gulp-tasks/felint/.jshintrc'
     }
   };
 
   _.merge(gulp.options, options, function (a, b) {
-    return _.isArray(a) ? a.concat(b) : undefined;
+    return _.isArray(a) ? b : undefined;
   });
 
   require('gulp-help')(gulp);
@@ -59,22 +61,30 @@ module.exports = function (gulp, options) {
     gutil.log(err.message);
   }
 
-  gulp.task('lint', 'Lints all server side js', function () {
-    fs.exists('./.jshintrc', function (exists) {
-      var jshintrcPath = exists ? './.jshintrc' : './node_modules/load-common-gulp-tasks/lint/.jshintrc';
-
-      gulp.src(gulp.options.paths.lint)
-        .pipe(jshint(jshintrcPath))
-        .pipe(jshint.reporter(stylish))
-        .pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
-    });
-  });
-
-  gulp.task('felint', 'Lints all client side js', function () {
-    gulp.src(gulp.options.paths.felint)
-      .pipe(jshint('./node_modules/load-common-gulp-tasks/felint/.jshintrc'))
+  gulp.task('lint', 'Lint server side js and fails on error', function () {
+    gulp.src(gulp.options.paths.lint)
+      .pipe(jshint(gulp.options.jshintrc.server))
       .pipe(jshint.reporter(stylish))
       .pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
+  });
+
+  gulp.task('lint-show', 'Show full server side js lint report without failing', function () {
+    gulp.src(gulp.options.paths.lint)
+      .pipe(jshint(gulp.options.jshintrc.server))
+      .pipe(jshint.reporter(stylish));
+  });
+
+  gulp.task('felint', 'Lint client side js and fail on error', function () {
+    gulp.src(gulp.options.paths.felint)
+      .pipe(jshint(gulp.options.jshintrc.client))
+      .pipe(jshint.reporter(stylish))
+      .pipe(jshint.reporter('fail')); // fails on first encountered error instead of running full report.
+  });
+
+  gulp.task('felint-show', 'Show full client side js lint without failing', function () {
+    gulp.src(gulp.options.paths.felint)
+      .pipe(jshint(gulp.options.jshintrc.client))
+      .pipe(jshint.reporter(stylish));
   });
 
   gulp.task('cover', 'Generate test coverage results', function (cb) {
