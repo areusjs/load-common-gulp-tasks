@@ -1,4 +1,4 @@
-# load-common-gulp-tasks
+# load-common-gulp-tasks [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 > Load common [gulp](http://gulpjs.com/) tasks and configs so you don't need to redefine them for every module
 
 ## Available Tasks
@@ -109,3 +109,8 @@ gulp.task('styles', 'Compile sass to css', function () {
     .pipe(gulp.dest('./' + libPath));
 });
 ```
+
+[npm-url]: https://npmjs.org/package/load-common-gulp-tasks
+[npm-image]: http://img.shields.io/npm/v/load-common-gulp-tasks.svg
+[travis-image]: https://travis-ci.org/chmontgomery/load-common-gulp-tasks.svg?branch=master
+[travis-url]: https://travis-ci.org/chmontgomery/load-common-gulp-tasks
