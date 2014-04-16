@@ -64,14 +64,14 @@ module.exports = function (gulp, options) {
   process.on('exit', function () {
     process.nextTick(function () {
       var msg = "gulp '" + gulp.seq + "' failed";
-      console.log(msg.red);
+      console.log(gutil.colors.red(msg));
       process.exit(exitCode);
     });
   });
 
   function taskPassed(taskName) {
-    var msg = "\ngulp '" + taskName + "' passed\n";
-    console.log(msg.green);
+    var msg = "gulp '" + taskName + "' passed";
+    console.log(gutil.colors.green(msg));
   }
 
   // cleanup all variables since, if we're running 'watch', they'll stick around in memory
@@ -98,7 +98,7 @@ module.exports = function (gulp, options) {
   function lintOnEnd() {
     var errString = totalLintErrors + '';
     if (exitCode) {
-      console.log(errString.magenta, 'errors\n');
+      console.log(gutil.colors.magenta(errString), 'errors\n');
       gutil.beep();
     } else {
       taskPassed('lint');
@@ -137,7 +137,7 @@ module.exports = function (gulp, options) {
   function felintOnEnd() {
     var errString = totalFelintErrors + '';
     if (exitCode) {
-      console.log(errString.magenta, 'errors\n');
+      console.log(gutil.colors.magenta(errString), 'errors\n');
       gutil.beep();
     } else {
       taskPassed('felint');
