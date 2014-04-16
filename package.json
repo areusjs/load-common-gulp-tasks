@@ -1,6 +1,6 @@
 {
   "name": "load-common-gulp-tasks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Load common gulp tasks and configs so you don't need to redefine them for every module",
   "main": "./index.js",
   "scripts": {
