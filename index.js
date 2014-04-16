@@ -6,6 +6,7 @@ var gutil = require('gulp-util'),
   mocha = require('gulp-mocha'),
   istanbul = require('gulp-istanbul'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
+  size,
   _ = require('lodash'),
   map = require('map-stream');
 
@@ -52,12 +53,15 @@ module.exports = function (gulp, options) {
     jshintrc: {
       server: './node_modules/load-common-gulp-tasks/lint/.jshintrc',
       client: './node_modules/load-common-gulp-tasks/felint/.jshintrc'
-    }
+    },
+    showStreamSize: false
   };
 
   _.merge(gulp.options, options, function (a, b) {
     return _.isArray(a) ? b : undefined;
   });
+
+  size = (gulp.options.showStreamSize) ? require('gulp-size') : require('./size-fake/index.js');
 
   require('gulp-help')(gulp);
 
@@ -80,6 +84,10 @@ module.exports = function (gulp, options) {
     totalFelintErrors = 0;
     exitCode = 0;
   }
+
+  // ----------------
+  // lint
+  // ----------------
 
   function lint() {
     beforeEach();
@@ -112,13 +120,23 @@ module.exports = function (gulp, options) {
         if (exitCode) {
           process.emit('exit');
         }
-      });
+      })
+      .pipe(size({
+        title: 'lint'
+      }));
   });
 
   gulp.task('lint-watch', 'Show full server side js lint report without failing', function () {
     return lint()
-      .on('end', lintOnEnd);
+      .on('end', lintOnEnd)
+      .pipe(size({
+        title: 'lint'
+      }));
   });
+
+  // ----------------
+  // felint
+  // ----------------
 
   function felint() {
     beforeEach();
@@ -151,13 +169,23 @@ module.exports = function (gulp, options) {
         if (exitCode) {
           process.emit('exit');
         }
-      });
+      })
+      .pipe(size({
+        title: 'felint'
+      }));
   });
 
   gulp.task('felint-watch', 'Show full client side js lint without failing', function () {
     return felint()
-      .on('end', felintOnEnd);
+      .on('end', felintOnEnd)
+      .pipe(size({
+        title: 'felint'
+      }));
   });
+
+  // ----------------
+  // test, cover
+  // ----------------
 
   function testErrorHandler(err) {
     gutil.beep();
@@ -169,7 +197,10 @@ module.exports = function (gulp, options) {
     beforeEach();
     return gulp.src(gulp.options.paths.cover)
       .pipe(istanbul())
-      .on('end', cb);
+      .on('end', cb)
+      .pipe(size({
+        title: 'cover'
+      }));
   }
 
   gulp.task('test', 'Unit tests and coverage', function (cb) {
@@ -180,6 +211,9 @@ module.exports = function (gulp, options) {
           testErrorHandler(err);
           process.emit('exit');
         })
+        .pipe(size({
+          title: 'test'
+        }))
         .pipe(istanbul.writeReports(gulp.options.coverageSettings.coverageDirectory))
         .pipe(coverageEnforcer(gulp.options.coverageSettings))
         .on('error', function (err) { // handler for istanbul error
@@ -201,6 +235,10 @@ module.exports = function (gulp, options) {
         .on('end', cb);
     });
   });
+
+  // ----------------
+  // combo tasks
+  // ----------------
 
   gulp.task('ci', 'All lint and tests', ['lint', 'felint', 'test']);
 
