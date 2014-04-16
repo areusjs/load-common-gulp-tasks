@@ -227,11 +227,11 @@ module.exports = function (gulp, options) {
   gulp.task('test-watch', function (cb) {
     return cover(function () {
       gulp.src(gulp.options.paths.test)
-        .pipe(mocha({reporter: 'dot'}))
+        .pipe(mocha({
+          reporter: 'min',
+          G: true
+        }))
         .on('error', testErrorHandler) // handler for mocha error
-        .pipe(istanbul.writeReports(gulp.options.coverageSettings.coverageDirectory))
-        .pipe(coverageEnforcer(gulp.options.coverageSettings))
-        .on('error', testErrorHandler) // handler for istanbul error
         .on('end', cb);
     });
   });
@@ -244,8 +244,12 @@ module.exports = function (gulp, options) {
 
   gulp.task('ci-watch', ['lint-watch', 'felint-watch', 'test-watch']);
 
-  gulp.task('watch', 'Watch files and run ci', function () {
+  gulp.task('watch-all', 'Watch files and run ci', function () {
     gulp.watch(gulp.options.paths.lint, ['ci-watch']);
+  });
+
+  gulp.task('watch', function () {
+    gulp.watch(gulp.options.paths.lint, ['test-watch']);
   });
 
   gulp.task('default', ['watch']);
