@@ -279,6 +279,6 @@ module.exports = function (gulp, options) {
     gulp.watch(gulp.options.paths.lint, ['test-watch']);
   });
 
-  gulp.task('default', false, ['watch']);
+  gulp.task('default', false, ['help']);
 
 };
