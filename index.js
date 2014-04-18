@@ -278,7 +278,4 @@ module.exports = function (gulp, options) {
   gulp.task('watch', 'Watch files and run tests on change', function () {
     gulp.watch(gulp.options.paths.lint, ['test-watch']);
   });
-
-  gulp.task('default', false, ['help']);
-
 };
