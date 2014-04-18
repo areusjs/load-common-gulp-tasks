@@ -89,7 +89,7 @@ Default: `./node_modules/load-common-gulp-tasks/felint/.jshintrc`
 
 ### options.showStreamSize
 
-Type: `Boolean`
+Type: `Boolean`   
 Default: `false`
 
 Optionally show the gulp stream size of each task
