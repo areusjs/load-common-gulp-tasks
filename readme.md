@@ -31,7 +31,7 @@ e.g. `require('load-common-gulp-tasks')(gulp, options);`
 
 ### options.coverageSettings
 
-Type: `Object`
+Type: `Object`    
 Default:
 ```js
 {
@@ -50,7 +50,7 @@ Coverage settings for [gulp-istanbul-enforcer](https://github.com/iainjmitchell/
 
 ### options.paths
 
-Type: `Object`
+Type: `Object`    
 Default:
 ```js
 {
@@ -75,14 +75,14 @@ Glob paths used by the associated targets
 
 ### options.jshintrc.server
 
-Type: `String`
+Type: `String`    
 Default: `./node_modules/load-common-gulp-tasks/lint/.jshintrc`
 
 `.jshintrc` file to use when running `gulp lint` target
 
 ### options.jshintrc.client
 
-Type: `String`
+Type: `String`    
 Default: `./node_modules/load-common-gulp-tasks/felint/.jshintrc`
 
 `.jshintrc` file to use when running `gulp felint` target
