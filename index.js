@@ -58,11 +58,11 @@ module.exports = function (gulp, options) {
       client: './node_modules/load-common-gulp-tasks/felint/.jshintrc'
     },
     showStreamSize: false,
-    // https://github.com/philbooth/complexity-report#command-line-options
-    complexityOptions: {
-    },
-    complexityDestDir: './target/complexity'
-};
+    complexity: {
+      destDir: './target/complexity',
+      options: {} // https://github.com/philbooth/complexity-report#command-line-options
+    }
+  };
 
   _.merge(gulp.options, options, function (a, b) {
     return _.isArray(a) ? b : undefined;
@@ -287,14 +287,14 @@ module.exports = function (gulp, options) {
       jshintJSON = JSON.parse(data.replace(commentRemovalRegex, ''));
 
       gulp.src(gulp.options.paths.cover)
-        .pipe(plato(gulp.options.complexityDestDir, {
+        .pipe(plato(gulp.options.complexity.destDir, {
           jshint: {
             options: jshintJSON
           },
-          complexity: gulp.options.complexityOptions
+          complexity: gulp.options.complexity.options
         }));
 
-      gulp.src(gulp.options.complexityDestDir + '/index.html')
+      gulp.src(gulp.options.complexity.destDir + '/index.html')
         .pipe(open());
 
       cb();

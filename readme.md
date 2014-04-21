@@ -7,7 +7,8 @@ Supplies a common interface to the following gulp modules:
 2. [gulp-jshint](https://github.com/spenceralger/gulp-jshint)
 3. [gulp-istanbul](https://github.com/SBoudrias/gulp-istanbul)
 4. [gulp-istanbul-enforcer](https://github.com/iainjmitchell/gulp-istanbul-enforcer)
-5. [gulp-help](https://github.com/chmontgomery/gulp-help)
+5. [gulp-plato](https://github.com/sindresorhus/gulp-plato)
+6. [gulp-help](https://github.com/chmontgomery/gulp-help)
 
 ## Available Tasks
 
@@ -86,6 +87,20 @@ Type: `String`
 Default: `./node_modules/load-common-gulp-tasks/felint/.jshintrc`
 
 `.jshintrc` file to use when running `gulp felint` target
+
+### options.complexity.destDir
+
+Type: `String`    
+Default: `./target/complexity`
+
+Report destination.
+
+### options.complexity.options
+
+Type: `Object`    
+Default: `{}`
+
+[Options](https://github.com/philbooth/complexity-report#command-line-options) passed to complexity-report.
 
 ### options.showStreamSize
 
