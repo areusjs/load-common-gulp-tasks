@@ -1,6 +1,6 @@
 {
   "name": "load-common-gulp-tasks",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Load common gulp tasks and configs so you don't need to redefine them for every module",
   "main": "./index.js",
   "scripts": {
@@ -35,6 +35,8 @@
     "gulp-help": "^0.1.2",
     "map-stream": "^0.1.0",
     "gulp-size": "^0.3.0",
-    "through2": "^0.4.1"
+    "through2": "^0.4.1",
+    "gulp-plato": "^0.2.1",
+    "gulp-open": "^0.2.8"
   }
 }

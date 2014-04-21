@@ -8,7 +8,10 @@ var gutil = require('gulp-util'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
   size,
   _ = require('lodash'),
-  map = require('map-stream');
+  map = require('map-stream'),
+  plato = require('gulp-plato'),
+  fs = require('fs'),
+  open = require('gulp-open');
 
 /**
  * Assigns default tasks to your gulp instance
@@ -54,8 +57,12 @@ module.exports = function (gulp, options) {
       server: './node_modules/load-common-gulp-tasks/lint/.jshintrc',
       client: './node_modules/load-common-gulp-tasks/felint/.jshintrc'
     },
-    showStreamSize: false
-  };
+    showStreamSize: false,
+    // https://github.com/philbooth/complexity-report#command-line-options
+    complexityOptions: {
+    },
+    complexityDestDir: './target/complexity'
+};
 
   _.merge(gulp.options, options, function (a, b) {
     return _.isArray(a) ? b : undefined;
@@ -261,6 +268,38 @@ module.exports = function (gulp, options) {
       .pipe(size({
         title: 'test-watch'
       }));
+  });
+
+  // ----------------
+  // complexity
+  // ----------------
+
+  gulp.task('plato', 'Generate complexity analysis reports with plato', function (cb) {
+
+    // http://james.padolsey.com/javascript/removing-comments-in-javascript/
+    var commentRemovalRegex = /\/\*.+?\*\/|\/\/.*(?=[\n\r])/g,
+      jshintJSON;
+
+    fs.readFile(gulp.options.jshintrc.server, 'utf8', function (err, data) {
+      if (err) {
+        throw err;
+      }
+      jshintJSON = JSON.parse(data.replace(commentRemovalRegex, ''));
+
+      gulp.src(gulp.options.paths.cover)
+        .pipe(plato(gulp.options.complexityDestDir, {
+          jshint: {
+            options: jshintJSON
+          },
+          complexity: gulp.options.complexityOptions
+        }));
+
+      gulp.src(gulp.options.complexityDestDir + '/index.html')
+        .pipe(open());
+
+      cb();
+    });
+
   });
 
   // ----------------
