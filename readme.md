@@ -56,12 +56,12 @@ Default:
 ```js
 {
   lint: [
-    './gulpfile.js',
+    './*.js',
     './lib/**/*.js',
     './test/**/*.js'
   ],
   felint: [
-    './content/scripts/**/*.js'
+    './content/**/*.js'
   ],
   cover: [
     './lib/**/*.js'

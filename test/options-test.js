@@ -21,12 +21,12 @@ describe('options', function () {
     should(_.keys(gulp.options.paths).length).eql(4);
 
     should(gulp.options.paths.lint.length).eql(3);
-    should(_.contains(gulp.options.paths.lint, './gulpfile.js')).ok;
+    should(_.contains(gulp.options.paths.lint, './*.js')).ok;
     should(_.contains(gulp.options.paths.lint, './lib/**/*.js')).ok;
     should(_.contains(gulp.options.paths.lint, './test/**/*.js')).ok;
 
     should(gulp.options.paths.felint.length).eql(1);
-    should(_.contains(gulp.options.paths.felint, './content/scripts/**/*.js')).ok;
+    should(_.contains(gulp.options.paths.felint, './content/**/*.js')).ok;
 
     should(gulp.options.paths.cover.length).eql(1);
     should(_.contains(gulp.options.paths.cover, './lib/**/*.js')).ok;
@@ -52,7 +52,7 @@ describe('options', function () {
     should(_.contains(gulp.options.paths.lint, 'custom/glob/path/**/*.js')).ok;
 
     should(gulp.options.paths.felint.length).eql(1);
-    should(_.contains(gulp.options.paths.felint, './content/scripts/**/*.js')).ok;
+    should(_.contains(gulp.options.paths.felint, './content/**/*.js')).ok;
   });
 
 });
