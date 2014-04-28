@@ -70,7 +70,7 @@ module.exports = function (gulp, options) {
 
   size = (gulp.options.showStreamSize) ? require('gulp-size') : require('./size-fake/index.js');
 
-  require('gulp-help')(gulp);
+  require('gulp-help')(gulp, { aliases: ['h', '?']});
 
   process.on('exit', function () {
     process.nextTick(function () {
