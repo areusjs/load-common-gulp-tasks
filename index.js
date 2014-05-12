@@ -11,9 +11,11 @@ var gutil = require('gulp-util'),
   map = require('map-stream'),
   plato = require('gulp-plato'),
   fs = require('fs'),
-  open = require('gulp-open');
+  open = require('gulp-open'),
+  path = require('path'),
+  spawn = require('child_process').spawn;
 
-/**
+  /**
  * Assigns default tasks to your gulp instance
  * @param {Gulp} gulp
  * @param {Object} [options] custom options
@@ -268,6 +270,14 @@ module.exports = function (gulp, options) {
       .pipe(size({
         title: 'test-watch'
       }));
+  });
+
+  gulp.task('test-debug', 'Run unit tests in debug mode', function (cb) {
+    spawn('node', [
+      '--debug-brk',
+      path.join(__dirname, 'node_modules/gulp/bin/gulp.js'),
+      'test'
+    ], { stdio: 'inherit' });
   });
 
   // ----------------
