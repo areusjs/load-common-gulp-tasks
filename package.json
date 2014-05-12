@@ -1,6 +1,6 @@
 {
   "name": "load-common-gulp-tasks",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Load common gulp tasks and configs so you don't need to redefine them for every module",
   "main": "./index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "url": "http://www.chrismontgomery.info/"
   },
   "engines": {
-    "node": ">= 0.9"
+    "node": ">= 0.10"
   },
   "license": "MIT",
   "devDependencies": {

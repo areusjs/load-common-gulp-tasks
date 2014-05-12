@@ -19,11 +19,7 @@ Supplies a common interface to the following gulp modules:
 ### Debug Tests
 
 You can debug your mocha tests using a tool like [node-inspector](https://github.com/node-inspector/node-inspector)
-by calling `gulp.js` directly via node, e.g.
-
-```
-$ node --debug-brk node_modules/gulp/bin/gulp.js test
-```
+combined with the `gulp test-debug` target
 
 ## Basic Usage
 
