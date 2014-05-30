@@ -264,7 +264,7 @@ module.exports = function (gulp, options) {
     return gulp.src(gulp.options.paths.test)
       .pipe(mocha({
         reporter: 'min',
-        G: true
+        growl: true
       }))
       .on('error', testErrorHandler) // handler for mocha error
       .pipe(size({
