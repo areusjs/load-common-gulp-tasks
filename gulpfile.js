@@ -6,6 +6,8 @@ var gulp = require('gulp'),
   gutil = require('gulp-util'),
   mocha = require('gulp-mocha');
 
+require('gulp-help')(gulp);
+
 function errorLogger(err) {
   gutil.beep();
   gutil.log(err.message);
@@ -40,11 +42,11 @@ gulp.task('test', ['lint'], function () {
 });
 
 // when watching, do NOT return the stream, otherwise watch won't continue on error
-gulp.task('lint-watch', function () {
+gulp.task('lint-watch', false, function () {
   lint();
 });
 
-gulp.task('test-watch', ['lint-watch'], function () {
+gulp.task('test-watch', false, ['lint-watch'], function () {
   test();
 });
 
@@ -55,4 +57,4 @@ gulp.task('watch', function () {
   ], ['test-watch']);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('ci', 'Run all tests and lint.', ['test']);
