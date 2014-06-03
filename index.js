@@ -318,16 +318,18 @@ module.exports = function (gulp, options) {
 
   gulp.task('ci', 'Lint, tests and test coverage', ['lint', 'felint', 'test-cover']);
 
-  gulp.task('ci-watch', false, ['lint-watch', 'felint-watch', 'test-cover-watch']);
+  function getTestAndLintPaths() {
+    var paths = gulp.options.paths.lint.concat(gulp.options.paths.test);
+    return _.uniq(paths);
+  }
 
   gulp.task('watch', 'Watch files and run all ci validation on change', function () {
-    gulp.watch(gulp.options.paths.lint, ['lint-watch', 'test-cover-watch']);
+    gulp.watch(getTestAndLintPaths(), ['lint-watch', 'test-cover-watch']);
     gulp.watch(gulp.options.paths.felint, ['felint-watch']);
-    gulp.watch(gulp.options.paths.test, ['lint-watch', 'test-cover-watch']);
   });
 
   gulp.task('watch-test', 'Watch files and run tests on change', function () {
-    gulp.watch(gulp.options.paths.lint, ['test-watch']);
+    gulp.watch(getTestAndLintPaths(), ['test-watch']);
   });
 
 };
