@@ -323,10 +323,13 @@ module.exports = function (gulp, options) {
     return _.uniq(paths);
   }
 
-  gulp.task('watch', 'Watch files and run all ci validation on change', function () {
+  // separate task so "watch" can easily be overridden
+  gulp.task('ci-watch', false, function () {
     gulp.watch(getTestAndLintPaths(), ['lint-watch', 'test-cover-watch']);
     gulp.watch(gulp.options.paths.felint, ['felint-watch']);
   });
+
+  gulp.task('watch', 'Watch files and run all ci validation on change', ['ci-watch']);
 
   gulp.task('watch-test', 'Watch files and run tests on change', function () {
     gulp.watch(getTestAndLintPaths(), ['test-watch']);
