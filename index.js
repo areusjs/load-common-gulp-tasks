@@ -320,11 +320,14 @@ module.exports = function (gulp, options) {
 
   gulp.task('ci-watch', false, ['lint-watch', 'felint-watch', 'test-cover-watch']);
 
-  gulp.task('watch-all', 'Watch files and run all ci validation on change', function () {
-    gulp.watch(gulp.options.paths.lint, ['ci-watch']);
+  gulp.task('watch', 'Watch files and run all ci validation on change', function () {
+    gulp.watch(gulp.options.paths.lint, ['lint-watch', 'test-cover-watch']);
+    gulp.watch(gulp.options.paths.felint, ['felint-watch']);
+    gulp.watch(gulp.options.paths.test, ['lint-watch', 'test-cover-watch']);
   });
 
-  gulp.task('watch', 'Watch files and run tests on change', function () {
+  gulp.task('watch-test', 'Watch files and run tests on change', function () {
     gulp.watch(gulp.options.paths.lint, ['test-watch']);
   });
+
 };
