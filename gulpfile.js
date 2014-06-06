@@ -27,7 +27,7 @@ function test() {
     './test/**/*.js',
     '!./test/helper/**'
   ])
-    .pipe(mocha(gulp.options.mochaCliOptions))
+    .pipe(mocha({reporter: 'dot'}))
     .on('error', errorLogger);
 }
 

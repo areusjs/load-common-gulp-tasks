@@ -114,6 +114,16 @@ Default: `false`
 
 Optionally show the gulp stream size of each task
 
+### options.mochaCliOptions
+
+Type: `Object`
+Default `{reporter: 'dots'}`
+
+Allows you to pass in any available options `mocha --help` lists.
+Options that are passed on the command line without values, such as `--debug-brk` 
+should be passed with their value set to boolean `true`
+
+
 ## Advanced Usage
 
 To override default tasks or create new ones, simply define them after calling `require('load-common-gulp-tasks')(gulp);` in your `gulpfile.js`, e.g.

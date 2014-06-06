@@ -65,7 +65,7 @@ module.exports = function (gulp, options) {
       options: {} // https://github.com/philbooth/complexity-report#command-line-options
     },
     mochaCliOptions: {
-      reporter: 'dots',
+      reporter: 'dot',
     }
   };
 
@@ -218,7 +218,7 @@ module.exports = function (gulp, options) {
   gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
     return cover(function () {
       gulp.src(gulp.options.paths.test)
-        .pipe(mocha(gulp.options))
+        .pipe(mocha(gulp.options.mochaCliOptions))
         .on('error', function (err) { // handler for mocha error
           testErrorHandler(err);
           process.emit('exit');
@@ -239,7 +239,7 @@ module.exports = function (gulp, options) {
   gulp.task('test-cover-watch', false, function (cb) {
     return cover(function () {
       gulp.src(gulp.options.paths.test)
-        .pipe(mocha({reporter: 'dot'}))
+        .pipe(mocha(gulp.options.mochaCliOptions))
         .on('error', testErrorHandler) // handler for mocha error
         .pipe(size({
           title: 'test-cover'
@@ -253,7 +253,7 @@ module.exports = function (gulp, options) {
 
   gulp.task('test', 'Unit tests only', function () {
     return gulp.src(gulp.options.paths.test)
-      .pipe(mocha({reporter: 'dot'}))
+      .pipe(mocha(gulp.options.mochaCliOptions))
       .on('error', function (err) { // handler for mocha error
         testErrorHandler(err);
         process.emit('exit');
