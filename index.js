@@ -3,7 +3,7 @@
 var gutil = require('gulp-util'),
   jshint = require('gulp-jshint'),
   stylish = require('jshint-stylish'),
-  mocha = require('gulp-mocha'),
+  mocha = require('gulp-spawn-mocha'),
   istanbul = require('gulp-istanbul'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
   size,
@@ -63,6 +63,9 @@ module.exports = function (gulp, options) {
     complexity: {
       destDir: './target/complexity',
       options: {} // https://github.com/philbooth/complexity-report#command-line-options
+    },
+    mochaCliOptions: {
+      reporter: 'dots',
     }
   };
 
@@ -215,7 +218,7 @@ module.exports = function (gulp, options) {
   gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
     return cover(function () {
       gulp.src(gulp.options.paths.test)
-        .pipe(mocha({reporter: 'dot'}))
+        .pipe(mocha(gulp.options))
         .on('error', function (err) { // handler for mocha error
           testErrorHandler(err);
           process.emit('exit');

@@ -4,7 +4,7 @@ var gulp = require('gulp'),
   jshint = require('gulp-jshint'),
   stylish = require('jshint-stylish'),
   gutil = require('gulp-util'),
-  mocha = require('gulp-mocha');
+  mocha = require('gulp-spawn-mocha');
 
 function errorLogger(err) {
   gutil.beep();
@@ -27,7 +27,7 @@ function test() {
     './test/**/*.js',
     '!./test/helper/**'
   ])
-    .pipe(mocha({reporter: 'dot'}))
+    .pipe(mocha(gulp.options.mochaCliOptions))
     .on('error', errorLogger);
 }
 
