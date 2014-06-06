@@ -25,18 +25,18 @@
     "sinon": "^1.9.1"
   },
   "dependencies": {
-    "gulp-jshint": "^1.5.3",
-    "jshint-stylish": "^0.1.5",
-    "gulp-mocha": "^0.4.1",
-    "gulp-util": "^2.2.14",
+    "gulp-help": "^0.1.4",
     "gulp-istanbul": "^0.1.1",
     "gulp-istanbul-enforcer": "^1.0.2",
-    "lodash": "^2.4.1",
-    "gulp-help": "^0.1.4",
-    "map-stream": "^0.1.0",
-    "gulp-size": "^0.3.0",
-    "through2": "^0.4.1",
+    "gulp-jshint": "^1.5.3",
+    "gulp-open": "^0.2.8",
     "gulp-plato": "^0.2.1",
-    "gulp-open": "^0.2.8"
+    "gulp-size": "^0.3.0",
+    "gulp-spawn-mocha": "^0.1.4",
+    "gulp-util": "^2.2.14",
+    "jshint-stylish": "^0.1.5",
+    "lodash": "^2.4.1",
+    "map-stream": "^0.1.0",
+    "through2": "^0.4.1"
   }
 }
