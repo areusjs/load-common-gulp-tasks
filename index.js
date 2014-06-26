@@ -15,7 +15,7 @@ var gutil = require('gulp-util'),
   path = require('path'),
   spawn = require('child_process').spawn;
 
-  /**
+/**
  * Assigns default tasks to your gulp instance
  * @param {Gulp} gulp
  * @param {Object} [options] custom options
@@ -206,15 +206,15 @@ module.exports = function (gulp, options) {
     beforeEach();
     return gulp.src(gulp.options.paths.cover)
       .pipe(istanbul())
-      .on('end', cb)
+      .on('finish', cb)
       .pipe(size({
         title: 'cover'
       }));
   }
 
-  gulp.task('test-cover', 'Unit tests and coverage', function (cb) {
+  gulp.task('test-cover', 'Unit tests and coverage', function () {
     return cover(function () {
-      gulp.src(gulp.options.paths.test)
+      return gulp.src(gulp.options.paths.test)
         .pipe(mocha({reporter: 'dot'}))
         .on('error', function (err) { // handler for mocha error
           testErrorHandler(err);
@@ -228,14 +228,14 @@ module.exports = function (gulp, options) {
         .on('error', function (err) { // handler for istanbul error
           testErrorHandler(err);
           process.emit('exit');
-        })
-        .on('end', cb);
+        });
+      // not calling .on('end' due to bug https://github.com/SBoudrias/gulp-istanbul/issues/22
     });
   });
 
-  gulp.task('test-cover-watch', false, function (cb) {
+  gulp.task('test-cover-watch', false, function () {
     return cover(function () {
-      gulp.src(gulp.options.paths.test)
+      return gulp.src(gulp.options.paths.test)
         .pipe(mocha({reporter: 'dot'}))
         .on('error', testErrorHandler) // handler for mocha error
         .pipe(size({
@@ -243,8 +243,8 @@ module.exports = function (gulp, options) {
         }))
         .pipe(istanbul.writeReports(gulp.options.coverageSettings.coverageDirectory))
         .pipe(coverageEnforcer(gulp.options.coverageSettings))
-        .on('error', testErrorHandler) // handler for istanbul error
-        .on('end', cb);
+        .on('error', testErrorHandler); // handler for istanbul error
+      // not calling .on('end' due to bug https://github.com/SBoudrias/gulp-istanbul/issues/22
     });
   });
 
