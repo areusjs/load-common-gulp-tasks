@@ -4,7 +4,9 @@ var gulp = require('gulp'),
   jshint = require('gulp-jshint'),
   stylish = require('jshint-stylish'),
   gutil = require('gulp-util'),
-  mocha = require('gulp-mocha');
+  mocha = require('gulp-mocha'),
+  shrinkwrap = require('gulp-shrinkwrap'),
+  nicePackage = require('gulp-nice-package');
 
 require('gulp-help')(gulp);
 
@@ -58,3 +60,10 @@ gulp.task('watch', function () {
 });
 
 gulp.task('ci', 'Run all tests and lint.', ['test']);
+
+gulp.task('shrinkwrap', 'Cleans package.json deps and generates npm-shrinkwrap.json', function () {
+  return gulp.src('package.json')
+    .pipe(nicePackage())
+    .pipe(shrinkwrap())
+    .pipe(gulp.dest('./'));
+});

@@ -9,6 +9,8 @@ Supplies a common interface to the following gulp modules:
 4. [gulp-istanbul-enforcer](https://github.com/iainjmitchell/gulp-istanbul-enforcer)
 5. [gulp-plato](https://github.com/sindresorhus/gulp-plato)
 6. [gulp-help](https://github.com/chmontgomery/gulp-help)
+6. [gulp-nice-package](https://github.com/chmontgomery/gulp-nice-package)
+6. [gulp-shrinkwrap](https://github.com/chmontgomery/gulp-shrinkwrap)
 
 ## Available Tasks
 
@@ -113,6 +115,26 @@ Type: `Boolean`
 Default: `false`
 
 Optionally show the gulp stream size of each task
+
+### options.nicePackage.spec
+
+Type: `String`   
+Default: `npm`
+
+spec option for [package.json-validator](https://github.com/gorillamania/package.json-validator#api)
+
+### options.nicePackage.options
+
+Type: `Object`   
+Default: 
+```js
+{
+    warnings: false,
+    recommendations: false
+}
+```
+
+spec option for [package.json-validator](https://github.com/gorillamania/package.json-validator#api)
 
 ## Advanced Usage
 

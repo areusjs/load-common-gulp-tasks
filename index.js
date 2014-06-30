@@ -13,7 +13,10 @@ var gutil = require('gulp-util'),
   fs = require('fs'),
   open = require('gulp-open'),
   path = require('path'),
-  spawn = require('child_process').spawn;
+  spawn = require('child_process').spawn,
+  mapstream = require('map-stream'),
+  nicePackage = require('gulp-nice-package'),
+  shrinkwrap = require('gulp-shrinkwrap');
 
 /**
  * Assigns default tasks to your gulp instance
@@ -63,6 +66,13 @@ module.exports = function (gulp, options) {
     complexity: {
       destDir: './target/complexity',
       options: {} // https://github.com/philbooth/complexity-report#command-line-options
+    },
+    nicePackage: {
+      spec: 'npm',
+      options: {
+        warnings: false,
+        recommendations: false
+      }
     }
   };
 
@@ -313,10 +323,39 @@ module.exports = function (gulp, options) {
   });
 
   // ----------------
+  // shrinkwrap
+  // ----------------
+
+  function validatePackageJson() {
+    return gulp.src('package.json')
+      .pipe(nicePackage(gulp.options.nicePackage.spec, gulp.options.nicePackage.options));
+  }
+
+  gulp.task('nice-package', 'Validates package.json', function () {
+    var isValid = true;
+    return validatePackageJson()
+      .pipe(mapstream(function (file, cb) {
+        isValid = file.nicePackage.valid;
+        cb(null, file);
+      }))
+      .on('end', function () {
+        if (!isValid) {
+          process.emit('exit');
+        }
+      });
+  });
+
+  gulp.task('shrinkwrap', 'Cleans package.json deps and generates npm-shrinkwrap.json', function () {
+    return validatePackageJson()
+      .pipe(shrinkwrap())
+      .pipe(gulp.dest('./'));
+  });
+
+  // ----------------
   // combo tasks
   // ----------------
 
-  gulp.task('ci', 'Lint, tests and test coverage', ['lint', 'felint', 'test-cover']);
+  gulp.task('ci', 'Lint, tests and test coverage', ['lint', 'felint', 'test-cover', 'nice-package']);
 
   function getTestAndLintPaths() {
     var paths = gulp.options.paths.lint.concat(gulp.options.paths.test);
