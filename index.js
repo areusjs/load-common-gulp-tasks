@@ -112,7 +112,7 @@ module.exports = function (gulp, options) {
     beforeEach();
     return gulp.src(gulp.options.paths.lint)
       .pipe(jshint(gulp.options.jshintrc.server))
-      .pipe(jshint.reporter(stylish))
+      .pipe(jshint.reporter(stylish, { verbose: true }))
       .pipe(map(function (file, cb) {
         if (!file.jshint.success) {
           totalLintErrors += file.jshint.results.length;
