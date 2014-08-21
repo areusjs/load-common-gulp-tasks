@@ -1,6 +1,6 @@
 {
   "name": "load-common-gulp-tasks",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "dependencies": {
     "gulp-help": {
       "version": "0.1.11",
