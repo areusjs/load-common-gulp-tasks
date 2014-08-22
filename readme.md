@@ -190,6 +190,10 @@ gulp.task('styles', 'Compile sass to css', function () {
 });
 ```
 
+## License
+
+[MIT](http://opensource.org/licenses/MIT) © [Chris Montgomery](http://www.chrismontgomery.info/)
+
 [npm-url]: https://npmjs.org/package/load-common-gulp-tasks
 [npm-image]: http://img.shields.io/npm/v/load-common-gulp-tasks.svg
 [travis-image]: https://travis-ci.org/chmontgomery/load-common-gulp-tasks.svg?branch=master
