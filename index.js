@@ -8,7 +8,6 @@ var gutil = require('gulp-util'),
   coverageEnforcer = require('gulp-istanbul-enforcer'),
   size,
   _ = require('lodash'),
-  map = require('map-stream'),
   plato = require('gulp-plato'),
   fs = require('fs'),
   open = require('gulp-open'),
@@ -113,7 +112,7 @@ module.exports = function (gulp, options) {
     return gulp.src(gulp.options.paths.lint)
       .pipe(jshint(gulp.options.jshintrc.server))
       .pipe(jshint.reporter(stylish, { verbose: true }))
-      .pipe(map(function (file, cb) {
+      .pipe(mapstream(function (file, cb) {
         if (!file.jshint.success) {
           totalLintErrors += file.jshint.results.length;
           exitCode = 1;
@@ -162,7 +161,7 @@ module.exports = function (gulp, options) {
     return gulp.src(gulp.options.paths.felint)
       .pipe(jshint(gulp.options.jshintrc.client))
       .pipe(jshint.reporter(stylish))
-      .pipe(map(function (file, cb) {
+      .pipe(mapstream(function (file, cb) {
         if (!file.jshint.success) {
           totalFelintErrors += file.jshint.results.length;
           exitCode = 1;
