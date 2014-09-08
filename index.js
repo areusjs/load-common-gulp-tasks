@@ -221,6 +221,11 @@ module.exports = function (gulp, options) {
       }));
   }
 
+  function coverOnEnd() {
+    gutil.log('Wrote coverage reports to', gutil.colors.magenta(gulp.options.coverageSettings.coverageDirectory));
+    // not calling cb() due to bug https://github.com/SBoudrias/gulp-istanbul/issues/22
+  }
+
   gulp.task('test-cover', 'Unit tests and coverage', function () {
     return cover(function () {
       return gulp.src(gulp.options.paths.test)
@@ -237,8 +242,8 @@ module.exports = function (gulp, options) {
         .on('error', function (err) { // handler for istanbul error
           testErrorHandler(err);
           process.emit('exit');
-        });
-      // not calling .on('end' due to bug https://github.com/SBoudrias/gulp-istanbul/issues/22
+        })
+        .on('end', coverOnEnd);
     });
   });
 
@@ -252,8 +257,8 @@ module.exports = function (gulp, options) {
         }))
         .pipe(istanbul.writeReports(gulp.options.coverageSettings.coverageDirectory))
         .pipe(coverageEnforcer(gulp.options.coverageSettings))
-        .on('error', testErrorHandler); // handler for istanbul error
-      // not calling .on('end' due to bug https://github.com/SBoudrias/gulp-istanbul/issues/22
+        .on('error', testErrorHandler) // handler for istanbul error
+        .on('end', coverOnEnd);
     });
   });
 
