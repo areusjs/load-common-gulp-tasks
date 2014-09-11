@@ -31,7 +31,7 @@
     "sinon": "1.10.3"
   },
   "dependencies": {
-    "gulp-help": "0.1.11",
+    "gulp-help": "1.1.0",
     "gulp-istanbul": "0.2.2",
     "gulp-istanbul-enforcer": "1.0.3",
     "gulp-jshint": "1.8.4",
