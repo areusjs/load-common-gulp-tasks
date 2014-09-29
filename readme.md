@@ -196,5 +196,5 @@ gulp.task('styles', 'Compile sass to css', function () {
 
 [npm-url]: https://npmjs.org/package/load-common-gulp-tasks
 [npm-image]: http://img.shields.io/npm/v/load-common-gulp-tasks.svg
-[travis-image]: https://travis-ci.org/chmontgomery/load-common-gulp-tasks.svg?branch=master
-[travis-url]: https://travis-ci.org/chmontgomery/load-common-gulp-tasks
+[travis-image]: https://travis-ci.org/areusjs/load-common-gulp-tasks.svg?branch=master
+[travis-url]: https://travis-ci.org/areusjs/load-common-gulp-tasks
