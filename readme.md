@@ -27,8 +27,7 @@ combined with the `gulp test-debug` target
 
 ```js
 // gulpfile.js
-var gulp = require('gulp');
-require('load-common-gulp-tasks')(gulp);
+var gulp = require('load-common-gulp-tasks')(require('gulp'));
 ```
 
 ## Options

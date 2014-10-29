@@ -1,2 +1,1 @@
-var gulp = require('gulp');
-require('../../index')(gulp);
+var gulp = require('../../index')(require('gulp'));

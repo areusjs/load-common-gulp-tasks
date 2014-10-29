@@ -392,4 +392,5 @@ module.exports = function (gulp, options) {
     gulp.watch(getTestAndLintPaths(), ['test-watch']);
   });
 
+  return gulp;
 };
