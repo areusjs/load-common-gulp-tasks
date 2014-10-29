@@ -40,6 +40,7 @@ e.g. `require('load-common-gulp-tasks')(gulp, options);`
 ### options.istanbul
 
 Type: `Object`
+
 Default:
 ```js
 {
@@ -52,6 +53,7 @@ Default:
 ### options.istanbulWriteReports
 
 Type: `Object`
+
 Default:
 ```js
 {
@@ -63,7 +65,8 @@ Default:
 
 ### options.istanbulEnforcer
 
-Type: `Object`    
+Type: `Object`
+
 Default:
 ```js
 {
@@ -82,7 +85,8 @@ Default:
 
 ### options.paths
 
-Type: `Object`    
+Type: `Object`
+
 Default:
 ```js
 {
@@ -107,49 +111,56 @@ Glob paths used by the associated targets
 
 ### options.jshintrc.server
 
-Type: `String`    
+Type: `String`
+
 Default: `node_modules/load-common-gulp-tasks/lint/.jshintrc`
 
 `.jshintrc` file to use when running `gulp lint` target
 
 ### options.jshintrc.client
 
-Type: `String`    
+Type: `String`
+
 Default: `node_modules/load-common-gulp-tasks/felint/.jshintrc`
 
 `.jshintrc` file to use when running `gulp felint` target
 
 ### options.complexity.destDir
 
-Type: `String`    
+Type: `String`
+
 Default: `./target/complexity`
 
 Report destination.
 
 ### options.complexity.options
 
-Type: `Object`    
+Type: `Object`
+
 Default: `{}`
 
 [Options](https://github.com/philbooth/complexity-report#command-line-options) passed to complexity-report.
 
 ### options.showStreamSize
 
-Type: `Boolean`   
+Type: `Boolean`
+
 Default: `false`
 
 Optionally show the gulp stream size of each task
 
 ### options.nicePackage.spec
 
-Type: `String`   
+Type: `String`
+
 Default: `npm`
 
 spec option for [package.json-validator](https://github.com/gorillamania/package.json-validator#api)
 
 ### options.nicePackage.options
 
-Type: `Object`   
+Type: `Object`
+
 Default: 
 ```js
 {
