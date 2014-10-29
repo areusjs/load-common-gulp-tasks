@@ -44,7 +44,7 @@ Type: `Object`
 Default:
 ```js
 {
-  includeUntested: false
+  includeUntested: true
 }
 ```
 
