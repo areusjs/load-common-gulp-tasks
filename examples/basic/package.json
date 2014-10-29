@@ -1,0 +1,14 @@
+{
+  "name": "basic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp ci"
+  },
+  "author": "Chris Montgomery",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.8.9"
+  }
+}

@@ -31,7 +31,13 @@ module.exports = function (gulp, options) {
 
   // defaults
   gulp.options = {
-    coverageSettings: {
+    istanbul: {
+      includeUntested: true
+    },
+    istanbulWriteReports: {
+      dir: './target/coverage'
+    },
+    istanbulEnforcer: {
       thresholds: {
         statements: 80,
         branches: 70,
@@ -58,8 +64,8 @@ module.exports = function (gulp, options) {
       ]
     },
     jshintrc: {
-      server: './node_modules/load-common-gulp-tasks/lint/.jshintrc',
-      client: './node_modules/load-common-gulp-tasks/felint/.jshintrc'
+      server: path.join(__dirname, 'lint/.jshintrc'),
+      client: path.join(__dirname, 'felint/.jshintrc')
     },
     showStreamSize: false,
     complexity: {
@@ -78,6 +84,14 @@ module.exports = function (gulp, options) {
   _.merge(gulp.options, options, function (a, b) {
     return _.isArray(a) ? b : undefined;
   });
+
+  // support backwards compatibility to v0.3.2
+  if (options && options.coverageSettings) {
+    _.merge(gulp.options.istanbulEnforcer, options.coverageSettings);
+    if (options.coverageSettings.coverageDirectory) {
+      gulp.options.istanbulWriteReports.dir = options.coverageSettings.coverageDirectory;
+    }
+  }
 
   size = (gulp.options.showStreamSize) ? require('gulp-size') : require('./size-fake/index.js');
 
@@ -214,7 +228,7 @@ module.exports = function (gulp, options) {
   function cover(cb) {
     beforeEach();
     return gulp.src(gulp.options.paths.cover)
-      .pipe(istanbul())
+      .pipe(istanbul(gulp.options.istanbul))
       .on('finish', cb)
       .pipe(size({
         title: 'cover'
@@ -222,7 +236,7 @@ module.exports = function (gulp, options) {
   }
 
   function coverOnEnd() {
-    gutil.log('Wrote coverage reports to', gutil.colors.magenta(gulp.options.coverageSettings.coverageDirectory));
+    gutil.log('Wrote coverage reports to', gutil.colors.magenta(gulp.options.istanbulWriteReports.dir));
     // not calling cb() due to bug https://github.com/SBoudrias/gulp-istanbul/issues/22
   }
 
@@ -237,8 +251,8 @@ module.exports = function (gulp, options) {
         .pipe(size({
           title: 'test-cover'
         }))
-        .pipe(istanbul.writeReports(gulp.options.coverageSettings.coverageDirectory))
-        .pipe(coverageEnforcer(gulp.options.coverageSettings))
+        .pipe(istanbul.writeReports(gulp.options.istanbulWriteReports))
+        .pipe(coverageEnforcer(gulp.options.istanbulEnforcer))
         .on('error', function (err) { // handler for istanbul error
           testErrorHandler(err);
           process.emit('exit');
@@ -255,8 +269,8 @@ module.exports = function (gulp, options) {
         .pipe(size({
           title: 'test-cover'
         }))
-        .pipe(istanbul.writeReports(gulp.options.coverageSettings.coverageDirectory))
-        .pipe(coverageEnforcer(gulp.options.coverageSettings))
+        .pipe(istanbul.writeReports(gulp.options.istanbulWriteReports))
+        .pipe(coverageEnforcer(gulp.options.istanbulEnforcer))
         .on('error', testErrorHandler) // handler for istanbul error
         .on('end', coverOnEnd);
     });

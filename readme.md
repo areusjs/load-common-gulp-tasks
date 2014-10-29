@@ -37,7 +37,31 @@ require('load-common-gulp-tasks')(gulp);
 Each option can be overridden by passing an `options` object as the second parameter,
 e.g. `require('load-common-gulp-tasks')(gulp, options);`
 
-### options.coverageSettings
+### options.istanbul
+
+Type: `Object`
+Default:
+```js
+{
+  includeUntested: false
+}
+```
+
+[See here for all available options](https://github.com/SBoudrias/gulp-istanbul#istanbulopt)
+
+### options.istanbulWriteReports
+
+Type: `Object`
+Default:
+```js
+{
+  dir: './target/coverage'
+}
+```
+
+[See here for all available options](https://github.com/SBoudrias/gulp-istanbul#istanbulwritereportsopt)
+
+### options.istanbulEnforcer
 
 Type: `Object`    
 Default:
@@ -54,7 +78,7 @@ Default:
 }
 ```
 
-Coverage settings for [gulp-istanbul-enforcer](https://github.com/iainjmitchell/gulp-istanbul-enforcer)
+[See here for all available options](https://github.com/iainjmitchell/gulp-istanbul-enforcer#options)
 
 ### options.paths
 
@@ -84,14 +108,14 @@ Glob paths used by the associated targets
 ### options.jshintrc.server
 
 Type: `String`    
-Default: `./node_modules/load-common-gulp-tasks/lint/.jshintrc`
+Default: `node_modules/load-common-gulp-tasks/lint/.jshintrc`
 
 `.jshintrc` file to use when running `gulp lint` target
 
 ### options.jshintrc.client
 
 Type: `String`    
-Default: `./node_modules/load-common-gulp-tasks/felint/.jshintrc`
+Default: `node_modules/load-common-gulp-tasks/felint/.jshintrc`
 
 `.jshintrc` file to use when running `gulp felint` target
 
@@ -143,19 +167,14 @@ To override default tasks or create new ones, simply define them after calling `
 ```js
 var gulp = require('gulp'),
   sass = require('gulp-sass'),
-  rename = require('gulp-rename'),
-  bourbon = require('node-bourbon').includePaths,
-  neat = require('node-neat').includePaths,
-  libPath = 'lib',
-  sassPath = libPath + '/*/sass',
-  sassFiles = sassPath + '/*.scss',
+  sassFiles = './lib/*/sass/*.scss',
   options;
 
 // ------------------------
 // custom coverage settings
 // ------------------------
 options = {
-  coverageSettings: {
+  istanbulEnforcer: {
     thresholds: {
       statements: 83, // higher than default
       branches: 59, // lower than default
@@ -174,19 +193,13 @@ require('load-common-gulp-tasks')(gulp, options);
 // custom tasks
 // ------------------------
 gulp.task('watch', 'Watch sass files and recompile on change', function () {
-  gulp.watch([sassFiles], ['styles']);
+  gulp.watch(sassFiles, ['styles']);
 });
 
 gulp.task('styles', 'Compile sass to css', function () {
   return gulp.src(sassFiles)
-    .pipe(sass({
-      includePaths: [sassPath].concat(bourbon).concat(neat)
-    }))
-    .pipe(rename(function (path) {
-      var moduleName = path.dirname.split('/')[0];
-      path.dirname = moduleName + '/content/styles';
-    }))
-    .pipe(gulp.dest('./' + libPath));
+    .pipe(sass())
+    .pipe(gulp.dest('./public'));
 });
 ```
 
