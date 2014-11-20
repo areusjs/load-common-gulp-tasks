@@ -170,6 +170,42 @@ Default:
 
 spec option for [package.json-validator](https://github.com/gorillamania/package.json-validator#api)
 
+### options.mocha
+
+Type: `Object`
+
+Default:
+```js
+{
+    timeout: 2000,
+    reporter: 'dot'
+}
+```
+
+These options are passed to gulp-mocha in testing tasks.
+
+If a `timeout` option is given, it will also be used as a default value
+for `options.mochaWatch`, used in 'watching' test tasks.
+
+[See here for all available options](https://github.com/sindresorhus/gulp-mocha#mochaoptions)
+
+### options.mochaWatch
+
+Type: `Object`
+
+Default:
+```js
+{
+    timeout: 2000,  // overriden by options.mocha.timeout if present
+    reporter: 'min',
+    growl: true
+}
+```
+
+If a `timeout` option is not given here, but in options.mocha, it will be used here. These options are passed to gulp-mocha when used in 'watching' tests.
+
+[See here for all available options](https://github.com/sindresorhus/gulp-mocha#mochaoptions) Note: some options, like `growl`, remain undocumented.
+
 ## Advanced Usage
 
 To override default tasks or create new ones, simply define them after calling `require('load-common-gulp-tasks')(gulp);` in your `gulpfile.js`, e.g.

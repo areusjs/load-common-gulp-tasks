@@ -55,4 +55,30 @@ describe('options', function () {
     should(_.contains(gulp.options.paths.felint, './content/**/*.js')).ok;
   });
 
+  it('should allow mocha configuration', function () {
+    loadCommonGulpTasks(gulp, {
+      mocha: {
+        timeout: 5000
+      }
+    });
+
+    gulp.options.mocha.timeout.should.equal(5000);
+    gulp.options.mochaWatch.timeout.should.equal(5000);
+    gulp.options.mocha.reporter.should.equal('dot');
+  });
+
+  it('should allow mochaWatch configuration', function () {
+    loadCommonGulpTasks(gulp, {
+      mocha: {
+        timeout: 100
+      },
+      mochaWatch: {
+        timeout: 200
+      }
+    });
+
+    gulp.options.mocha.timeout.should.equal(100);
+    gulp.options.mochaWatch.timeout.should.equal(200);
+  });
+
 });
