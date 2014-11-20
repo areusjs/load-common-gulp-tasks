@@ -108,7 +108,8 @@ module.exports = function (gulp, options) {
   require('gulp-help')(gulp, { aliases: ['h', '?']});
 
   process.on('exit', function () {
-    if (0 == exitCode) {
+    // Exit with an exitCode of 0 is not an error.
+    if (0 === exitCode) {
       return process.exit(exitCode);
     }
     process.nextTick(function () {
@@ -365,7 +366,6 @@ module.exports = function (gulp, options) {
 
   gulp.task('nice-package', 'Validates package.json', function () {
     var isValid = true;
-    console.log('NICE')
     return validatePackageJson()
       .pipe(mapstream(function (file, cb) {
         isValid = file.nicePackage.valid;
