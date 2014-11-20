@@ -78,12 +78,22 @@ module.exports = function (gulp, options) {
         warnings: false,
         recommendations: false
       }
+    },
+    mocha: {
+      timeout: 2000,
+      reporter: 'dot'
+    },
+    'mochaWatch': {
+      reporter: 'min',
+      growl: true
     }
   };
-
   _.merge(gulp.options, options, function (a, b) {
     return _.isArray(a) ? b : undefined;
   });
+
+  // allow timeouts to be defined in one place in the simplest case of mocha configuration
+  gulp.options.mochaWatch.timeout = gulp.options.mochaWatch.timeout || gulp.options.mocha.timeout;
 
   // support backwards compatibility to v0.3.2
   if (options && options.coverageSettings) {
@@ -98,6 +108,9 @@ module.exports = function (gulp, options) {
   require('gulp-help')(gulp, { aliases: ['h', '?']});
 
   process.on('exit', function () {
+    if (0 == exitCode) {
+      return process.exit(exitCode);
+    }
     process.nextTick(function () {
       var msg = "gulp '" + gulp.seq + "' failed";
       console.log(gutil.colors.red(msg));
@@ -243,7 +256,7 @@ module.exports = function (gulp, options) {
   gulp.task('test-cover', 'Unit tests and coverage', function () {
     return cover(function () {
       return gulp.src(gulp.options.paths.test)
-        .pipe(mocha({reporter: 'dot'}))
+        .pipe(mocha(gulp.options.mocha))
         .on('error', function (err) { // handler for mocha error
           testErrorHandler(err);
           process.emit('exit');
@@ -264,7 +277,7 @@ module.exports = function (gulp, options) {
   gulp.task('test-cover-watch', false, function () {
     return cover(function () {
       return gulp.src(gulp.options.paths.test)
-        .pipe(mocha({reporter: 'dot'}))
+        .pipe(mocha(gulp.options.mocha))
         .on('error', testErrorHandler) // handler for mocha error
         .pipe(size({
           title: 'test-cover'
@@ -278,22 +291,23 @@ module.exports = function (gulp, options) {
 
   gulp.task('test', 'Unit tests only', function () {
     return gulp.src(gulp.options.paths.test)
-      .pipe(mocha({reporter: 'dot'}))
+      .pipe(mocha(gulp.options.mocha))
       .on('error', function (err) { // handler for mocha error
         testErrorHandler(err);
-        process.emit('exit');
       })
       .pipe(size({
         title: 'test'
-      }));
+      }))
+      .on('end', function () {
+        exitCode = 0;
+        process.emit('exit');
+      });
   });
 
   gulp.task('test-watch', false, function (cb) {
+
     return gulp.src(gulp.options.paths.test)
-      .pipe(mocha({
-        reporter: 'min',
-        growl: true
-      }))
+      .pipe(mocha(gulp.options.mochaWatch))
       .on('error', testErrorHandler) // handler for mocha error
       .pipe(size({
         title: 'test-watch'
@@ -351,6 +365,7 @@ module.exports = function (gulp, options) {
 
   gulp.task('nice-package', 'Validates package.json', function () {
     var isValid = true;
+    console.log('NICE')
     return validatePackageJson()
       .pipe(mapstream(function (file, cb) {
         isValid = file.nicePackage.valid;
