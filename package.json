@@ -21,6 +21,24 @@
     "name": "Chris Montgomery",
     "url": "http://www.chrismontgomery.info/"
   },
+  "contributors": [
+    {
+      "name": "Chris Montgomery",
+      "url": "http://www.chrismontgomery.info/"
+    },
+    {
+      "name": "Adam Bedell",
+      "url": "https://github.com/adamrights"
+    },
+    {
+      "name": "Scott Canham",
+      "url": "https://github.com/scanham"
+    },
+    {
+      "name": "John Mark Hawley",
+      "url": "https://github.com/jmhnilbog"
+    }
+  ],
   "engines": {
     "node": ">= 0.10"
   },
