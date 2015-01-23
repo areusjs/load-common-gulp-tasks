@@ -249,6 +249,15 @@ gulp.task('styles', 'Compile sass to css', function () {
 });
 ```
 
+## ES6 Support
+
+Since Node 0.11.13, ES6 functionality is available to applications with the harmony flag. In order to enable ES6 support just add --harmony with your task
+    
+    gulp ci --harmony
+    
+All tasks with the exception of "test-cover" work using --harmony flag. In order to use test-cover, either override the specific task or as an alternative you can use the #harmony branch, which points to a similar branch for gulp-istanbul.
+
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT) © [Chris Montgomery](http://www.chrismontgomery.info/)
