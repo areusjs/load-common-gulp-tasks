@@ -1,22 +1,24 @@
 'use strict';
 
-var loadCommonGulpTasks = require('../index.js'),
-/*jshint unused: true */
-  should = require('should'),
-/*jshint unused: false */
-  testData = require('./helper/test-data.js');
+var loadCommonGulpTasks = require('../index.js');
 
-describe('coverage', function () {
+var /*jshint unused: true */
+should = require('should');
+
+var /*jshint unused: false */
+testData = require('./helper/test-data.js');
+
+describe('coverage', () => {
 
   var gulp;
 
-  beforeEach(function () {
+  beforeEach(() => {
     gulp = testData.gulpStub();
   });
 
-  describe('should support deprecated configuration', function() {
+  describe('should support deprecated configuration', () => {
 
-    it('when custom config', function (done) {
+    it('when custom config', done => {
       loadCommonGulpTasks(gulp, {
         istanbul: {
           includeUntested: false
@@ -52,9 +54,9 @@ describe('coverage', function () {
 
   });
 
-  describe('should support latest configuration', function() {
+  describe('should support latest configuration', () => {
 
-    it('when default config', function (done) {
+    it('when default config', done => {
       loadCommonGulpTasks(gulp);
       gulp.options.istanbul.should.eql({
         includeUntested: true
@@ -75,7 +77,7 @@ describe('coverage', function () {
       done();
     });
 
-    it('when custom config', function (done) {
+    it('when custom config', done => {
       loadCommonGulpTasks(gulp, {
         istanbul: {
           includeUntested: false

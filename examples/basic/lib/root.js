@@ -1,3 +1,1 @@
-module.exports = function (x) {
-  return Math.sqrt(x);
-};
+module.exports = x => Math.sqrt(x);

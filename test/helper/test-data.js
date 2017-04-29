@@ -1,7 +1,7 @@
 var sinon = require('sinon');
 
 module.exports = {
-  gulpStub: function () {
+  gulpStub() {
     function noop() {
     }
 

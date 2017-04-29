@@ -5,10 +5,8 @@ var through = require('through2');
  * @param options
  * @returns {*}
  */
-module.exports = function(options) {
-  return through.obj(function (file, enc, cb) {
-    cb();
-  }, function (cb) {
-    cb();
-  });
-};
+module.exports = options => through.obj((file, enc, cb) => {
+  cb();
+}, cb => {
+  cb();
+});

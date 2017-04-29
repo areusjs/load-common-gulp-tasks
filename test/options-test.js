@@ -1,21 +1,24 @@
 'use strict';
 
-var loadCommonGulpTasks = require('../index.js'),
-/*jshint unused: true */
-  should = require('should'),
-/*jshint unused: false */
-  testData = require('./helper/test-data.js'),
-  _ = require('lodash');
+var loadCommonGulpTasks = require('../index.js');
 
-describe('options', function () {
+var /*jshint unused: true */
+should = require('should');
+
+var /*jshint unused: false */
+testData = require('./helper/test-data.js');
+
+var _ = require('lodash');
+
+describe('options', () => {
 
   var gulp;
 
-  beforeEach(function () {
+  beforeEach(() => {
     gulp = testData.gulpStub();
   });
 
-  it('should have default paths', function () {
+  it('should have default paths', () => {
     loadCommonGulpTasks(gulp);
 
     should(_.keys(gulp.options.paths).length).eql(4);
@@ -35,7 +38,7 @@ describe('options', function () {
     should(_.contains(gulp.options.paths.test, './test/**/*.js')).ok;
   });
 
-  it('should have custom paths', function () {
+  it('should have custom paths', () => {
     loadCommonGulpTasks(gulp, {
       paths: {
         lint: [
@@ -55,7 +58,7 @@ describe('options', function () {
     should(_.contains(gulp.options.paths.felint, './content/**/*.js')).ok;
   });
 
-  it('should allow mocha configuration', function () {
+  it('should allow mocha configuration', () => {
     loadCommonGulpTasks(gulp, {
       mocha: {
         timeout: 5000
@@ -67,7 +70,7 @@ describe('options', function () {
     gulp.options.mocha.reporter.should.equal('dot');
   });
 
-  it('should allow mochaWatch configuration', function () {
+  it('should allow mochaWatch configuration', () => {
     loadCommonGulpTasks(gulp, {
       mocha: {
         timeout: 100
