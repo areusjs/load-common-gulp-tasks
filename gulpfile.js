@@ -1,12 +1,12 @@
 'use strict';
 
-var gulp = require('gulp'),
-  jshint = require('gulp-jshint'),
-  stylish = require('jshint-stylish'),
-  gutil = require('gulp-util'),
-  mocha = require('gulp-mocha'),
-  shrinkwrap = require('gulp-shrinkwrap'),
-  nicePackage = require('gulp-nice-package');
+var gulp = require('gulp');
+var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
+var gutil = require('gulp-util');
+var mocha = require('gulp-mocha');
+var shrinkwrap = require('gulp-shrinkwrap');
+var nicePackage = require('gulp-nice-package');
 
 require('gulp-help')(gulp);
 
@@ -35,24 +35,20 @@ function test() {
     .on('error', errorLogger);
 }
 
-gulp.task('lint', function () {
-  return lint();
-});
+gulp.task('lint', () => lint());
 
-gulp.task('test', ['lint'], function () {
-  return test();
-});
+gulp.task('test', ['lint'], () => test());
 
 // when watching, do NOT return the stream, otherwise watch won't continue on error
-gulp.task('lint-watch', false, function () {
+gulp.task('lint-watch', false, () => {
   lint();
 });
 
-gulp.task('test-watch', false, ['lint-watch'], function () {
+gulp.task('test-watch', false, ['lint-watch'], () => {
   test();
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', () => {
   gulp.watch([
     './*.js',
     './test/**/*.js'
@@ -61,9 +57,7 @@ gulp.task('watch', function () {
 
 gulp.task('ci', 'Run all tests and lint.', ['test']);
 
-gulp.task('shrinkwrap', 'Cleans package.json deps and generates npm-shrinkwrap.json', function () {
-  return gulp.src('package.json')
-    .pipe(nicePackage())
-    .pipe(shrinkwrap())
-    .pipe(gulp.dest('./'));
-});
+gulp.task('shrinkwrap', 'Cleans package.json deps and generates npm-shrinkwrap.json', () => gulp.src('package.json')
+  .pipe(nicePackage())
+  .pipe(shrinkwrap())
+  .pipe(gulp.dest('./')));

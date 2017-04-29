@@ -1,3 +1,1 @@
-module.exports = function(x) {
-  return x * x;
-};
+module.exports = x => x * x;
